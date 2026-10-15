@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build":"rm -rf dist && cp -R src dist",
     "dev": "node --watch src/index.js"
   },
   "keywords": [],
