@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import { connectDb } from "./lib/db.js";
 import { clerkMiddleware } from "@clerk/express";
+import job from "./lib/cron.js";
 
 import fs from "fs";
 import path from "path";
@@ -35,4 +36,8 @@ if (fs.existsSync(publicDir)) {
 app.listen(port, () => {
   connectDb();
   console.log(`app is running on ${port}`);
+
+  if (process.env.NODE_ENV === "production") {
+    job.start();
+  }
 });
