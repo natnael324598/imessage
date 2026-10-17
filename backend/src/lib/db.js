@@ -10,6 +10,6 @@ export async function connectDb(){
     console.log("mongodb connected", conn.connection.host)
 }
 catch(error){
-    console.log("mongodb connection failed")
+    console.error("MongoDB connection failed:", error.message);
 }
 }
