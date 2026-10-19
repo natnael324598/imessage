@@ -5,6 +5,7 @@ import { connectDb } from "./lib/db.js";
 import { clerkMiddleware } from "@clerk/express";
 import job from "./lib/cron.js";
 import clerkWebhook from "./webhooks/clerk.webhook.js";
+import dns from "node:dns";
 
 import fs from "fs";
 import path from "path";
@@ -36,11 +37,18 @@ if (fs.existsSync(publicDir)) {
   });
 }
 
-app.listen(port, () => {
-  connectDb();
-  console.log(`app is running on ${port}`);
+async function start() {
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
-  if (process.env.NODE_ENV === "production") {
-    job.start();
-  }
-});
+  await connectDb();
+
+  app.listen(port, () => {
+    console.log(`app is running on ${port}`);
+
+    if (process.env.NODE_ENV === "production") {
+      job.start();
+    }
+  });
+}
+
+start();
