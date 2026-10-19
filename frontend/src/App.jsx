@@ -11,6 +11,7 @@ function App() {
         </Show>
         <Show when="signed-in">
           <UserButton />
+          <h1>welcome to our app</h1>
         </Show>
       </header>
     </>
