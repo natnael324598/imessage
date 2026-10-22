@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import { connectDb } from "./lib/db.js";
 import { clerkMiddleware } from "@clerk/express";
+import authRoutes from "./routes/auth.route.js"
 import job from "./lib/cron.js";
 import clerkWebhook from "./webhooks/clerk.webhook.js";
 import dns from "node:dns";
@@ -22,6 +23,8 @@ app.use("/api/webhooks/clerk", express.raw({ type: "application/json" }), clerkW
 app.use(cors({ origin: FRONTEND_URL, credentials: true }));
 app.use(express.json());
 app.use(clerkMiddleware());
+
+app.use("/api/auth", authRoutes);
 
 app.get("/health", (req, res) => {
   res.status(200).json({ ok: true });
